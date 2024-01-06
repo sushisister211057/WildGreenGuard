@@ -1,0 +1,116 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Times New Roman", "Microsoft JhengHei", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+}
+
+header div.top {
+    padding: 1rem;
+}
+
+nav, .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul, .navbar-nav {
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-right: 15px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #343a40;
+    font-weight: bold;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.navbar-toggler {
+    background-color: #007bff;
+    border: none;
+    color: #ffffff;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.navbar-collapse {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+}
+
+/* 調整按鈕在大螢幕上的顯示 */
+@media screen and (min-width: 992px) {
+    .navbar-toggler {
+        display: none;
+    }
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main > div {
+    text-align: center;
+    padding: 20px; /* 調整內容的內邊距 */
+}
+
+/* 將資料庫、辨識紀錄、語言、Q&A、Line 排列在右邊 */
+.navbar-nav {
+    margin-left: auto;
+}
+
+/* 新增樣式以垂直呈現表單元素 */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    margin-bottom: 10px; /* 調整標籤的底部間距 */
+}
+
+select,
+input,
+button {
+    margin-bottom: 15px; /* 調整下拉選單、輸入框和按鈕的底部間距 */
+}
+
+#display_image, #instance_image {
+    width: 500px;
+    height: 500px;
+    border: 1px solid #343a40; /* Add 'solid' to specify border style */
+    display: block; /* Ensure the image behaves as a block element */
+    margin: 0 auto; /* Center the image horizontally */
+}

@@ -1,14 +1,28 @@
 from django.db import models
-
+from django.utils import timezone
 # Create your models here.
 
-class Plant(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    image = models.ImageField(upload_to="image/", blank=False)
-    species = models.CharField(max_length=50, null=True, blank=True)
-    invasion = models.BooleanField(blank=False)
-    upload_time = models.DateTimeField(auto_now_add=True)
 
-class Kind(models.Model):
-    species = models.CharField(primary_key=True, max_length=50)
-    description = models.TextField(max_length=100, blank= False)
+class Plant(models.Model):
+
+    species_img = models.ImageField(upload_to="imgs/")
+    species_chi = models.CharField(max_length=30)
+    species_en = models.CharField(max_length=60)
+    isinvasive = models.BooleanField()
+    description = models.TextField(max_length=200)
+
+    def __str__(self) -> str:
+        return f"{self.species_chi}, {self.isinvasive}"
+
+
+class Record(models.Model):
+
+    uploading = models.FileField(upload_to='uploads/')
+
+    datetime = models.DateTimeField(default=timezone.now)
+
+    species = models.ForeignKey(Plant, on_delete=models.CASCADE)
+
+
+def __str__(self):
+    return f"{self.species},{self.datetime.strftime('%Y-%m-%d %H:%M')}"

@@ -4,14 +4,14 @@ from django.db import models
 
 class Plant(models.Model):
 
-    species = models.CharField(max_length=100, primary_key=True)
-    name_chinese = models.CharField(max_length=30)
-    name_english = models.CharField(max_length=60)
+    species_img = models.ImageField(upload_to="imgs/")
+    species_chi = models.CharField(max_length=30)
+    species_en = models.CharField(max_length=60)
     isinvasive = models.BooleanField()
     description = models.TextField(max_length=200)
 
     def __str__(self) -> str:
-        return f"{self.species}, {self.isinvasive}"
+        return f"{self.species_chi}, {self.isinvasive}"
 
 
 class Record(models.Model):
@@ -21,5 +21,4 @@ class Record(models.Model):
     species = models.ForeignKey(Plant, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.species.name_chinese},{self.datetime.strftime('%Y-%m-%d %H:%M')}"
-
+        return f"{self.species.species_chi},{self.datetime.strftime('%Y-%m-%d %H:%M')}"

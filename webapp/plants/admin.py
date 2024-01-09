@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from plants.models import Plant, Kind
+from plants.models import Plant, Record
 
 # Register your models here.
 
 admin.site.register(Plant)
-admin.site.register(Kind)
+admin.site.register(Record)

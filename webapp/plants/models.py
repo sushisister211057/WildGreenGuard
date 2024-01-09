@@ -19,7 +19,6 @@ class Plant(models.Model):
 class Record(models.Model):
 
     uploading = models.FileField(upload_to='uploads/')
-
     datetime = models.DateTimeField(auto_now_add=True)
     species = models.ForeignKey(Plant, on_delete=models.CASCADE)
 

@@ -7,7 +7,6 @@ from django.utils import timezone
 class Plant(models.Model):
 
     species_img = models.ImageField(upload_to="imgs/")
-    species_chi = models.CharField(max_length=30)
     species_en = models.CharField(max_length=60)
     isinvasive = models.BooleanField()
     description = models.TextField(max_length=200)

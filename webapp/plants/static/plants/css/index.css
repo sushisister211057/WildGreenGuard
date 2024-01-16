@@ -53,7 +53,7 @@ nav ul, .navbar-nav {
 }
 
 .navbar-toggler {
-    background-color: #007bff;
+    background-color: #84ff00;
     border: none;
     color: #ffffff;
     padding: 10px 15px;
@@ -114,3 +114,51 @@ button {
     display: block; /* Ensure the image behaves as a block element */
     margin: 0 auto; /* Center the image horizontally */
 }
+
+/*** Navbar ***/
+
+
+/* Apply styles to active state of dropdown items in the dropdown menu */
+.navbar .navbar-nav .nav-item:hover .nav-link,
+.navbar .navbar-nav .nav-item:active .nav-link {
+    color: black; /* Change this to the color you want when active/focused */
+    background-color: rgb(165, 208, 96); /* Change this to the background color you want when active/focused */
+}
+
+/* Apply styles to the active state of dropdown items inside the dropdown menu */
+.navbar .navbar-nav .nav-item.dropdown:hover .dropdown-menu .dropdown-item,
+.navbar .navbar-nav .nav-item.dropdown:focus .dropdown-menu .dropdown-item,
+.navbar .navbar-nav .nav-item.dropdown:active .dropdown-menu .dropdown-item {
+    color: black; /* Change this to the color you want when active/focused */
+    background-color: rgb(165, 208, 96); /* Change this to the background color you want when active/focused */
+}
+
+
+
+@media (min-width: 500px) {
+    .navbar .nav-item .dropdown-menu {
+        display: block;
+        border: none;
+        margin-top: 0;
+        top: 150%;
+        opacity: 0;
+        visibility: hidden;
+        transition: .5s;
+    }
+
+    .navbar .nav-item:hover .dropdown-menu {
+        top: 100%;
+        visibility: visible;
+        transition: .5s;
+        opacity: 1;
+    }
+}
+/* title icon */
+.title-icon {
+    max-width: 50px; /* Adjust the maximum width as needed */
+    max-height: 30px; /* Adjust the maximum height as needed */
+    width: auto;
+    height: auto;
+    vertical-align: middle;
+}
+

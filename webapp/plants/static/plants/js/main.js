@@ -23,3 +23,4 @@ imageInput.addEventListener("change", () => {
     console.log(imageInput.files[0]);
 });
 
+

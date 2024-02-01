@@ -5,8 +5,10 @@
   - [Object](#object)
   - [Invasive plants candidate (so far)](#invasive-plants-candidate-so-far)
   - [Flow](#flow)
+  - [System design](#system-design)
   - [Members](#members)
   - [Jobs](#jobs)
+  - [](#)
   - [References](#references)
 
 
@@ -68,6 +70,12 @@
    [tensorflow.js](https://js.tensorflow.org/api/latest/#Tensors), [tensorflow.js_Basic use](https://www.tensorflow.org/js/tutorials/conversion/import_keras, ), [onnx.js](https://onnxruntime.ai/docs/api/js/index.html))
     3. Perform the model on edge device with [tensorflow lite](https://www.tensorflow.org/lite).  
 
+
+## System design
+
+![system diagram](./images/System%20Diagram.png)
+
+
 ## Members
 
 Leader: 17_張家銘   
@@ -77,12 +85,12 @@ Members: 04_梁鈞翔, 12_許庭瑊, 16_呂星緯, 22_張雅婷, 31_何耿廷, 3
 |Job|Subgroup Leader|Subgroup Members|
 |-|-|-|
 |Collect data|17_張家銘|@All|
-|Build Model|04_梁鈞翔|34_張大謙|
+|Build Model|04_梁鈞翔|31_何耿廷|
 |Build Linebot|12_許庭瑊|22_張雅婷|
-|Build Web|16_呂星緯|34_張大謙, 31_何耿廷|
+|Build Web|16_呂星緯|34_張大謙|
 |Cloud deploy|22_張雅婷|12_許庭瑊, 16_呂星緯|
 
-
+## 
 
 
 ## References

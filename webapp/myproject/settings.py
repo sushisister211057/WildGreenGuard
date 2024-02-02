@@ -164,6 +164,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # for line login
 LINE_LOGIN_SECRET = "67bf2a23e51e07eb4d4dd34830f68d67"
 LINE_LOGIN_ENDPOINT = "https://ce5e-2001-b400-e35d-9b93-70ec-4cac-94f-409f.ngrok-free.app"
+LINE_LOGIN_ENDPOINT += "/users/line_login"
 LINE_LOGIN_ID = 2002587486
 # for line api
 LINE_API_URL = ""

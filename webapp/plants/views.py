@@ -60,7 +60,7 @@ def records(request):
 
 # list all available species
 def diagram(request):
-    pass
+    return render(request, "plants/diagram.html", settings.TRANS_DICT)
 
 # list all developers
 def developer(request):

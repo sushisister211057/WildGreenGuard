@@ -4,12 +4,14 @@
 
 <div class="container text-center">
   <div class="row align-items-start">
-    <div class="col">
-      {% if image %}
-      <img src="{{ image.url }}" id="instance_image">
-      {% else %}
-      <img src="{% static 'plants/images/no_image_square.jpg' %}" id="display_image">
-      {% endif %}
+    <div class="row">
+        <div class="container d-flex justify-content-center border border-success  w-auto h-auto">
+           {% if image %}
+        <img src="{{ image.url }}" id="instance_image" class="img-fluid ms-1">
+        {% else %}
+        <img src="{% static 'plants/images/no_image_square.jpg' %}" id="display_image" class="img-fluid">
+        {% endif %}
+        </div>
       <form action="{% url 'plants:identifier' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="image_input" id="file_label">
@@ -22,19 +24,8 @@
         <button type="submit" class="btn btn-success" id="imgbutton" disabled>Confirm</button>
       </form>
     </div>
-    <div class="col">
-
-    </div>
-  </div>
-</div>
-
-<div class="container px-4 text-center">
-  <div class="row gx-5">
-    <div class="col">
-     <div class="p-3">Custom column padding</div>
-    </div>
-    <div class="col">
-      <div class="p-3">Custom column padding</div>
+    <div class="row text-center">
+      <p>Result</p>
     </div>
   </div>
 </div>

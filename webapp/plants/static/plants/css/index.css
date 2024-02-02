@@ -34,6 +34,7 @@ nav,
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 1000;
 }
 
 nav ul,
@@ -117,17 +118,17 @@ button {
     /* 調整下拉選單、輸入框和按鈕的底部間距 */
 }
 
-#display_image,
+/* #display_image,
 #instance_image {
     width: 500px;
     height: 500px;
-    border: 1px solid #343a40;
+    border: 1px solid #343a40; */
     /* Add 'solid' to specify border style */
-    display: block;
+    /* display: block; */
     /* Ensure the image behaves as a block element */
-    margin: 0 auto;
+    /* margin: 12px auto; */
     /* Center the image horizontally */
-}
+/* } */
 
 /*** Navbar ***/
 

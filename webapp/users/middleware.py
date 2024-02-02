@@ -10,9 +10,6 @@ class LanguageMiddleware:
         lan_code = {"chi": 0, "en": 1, "jp": 2}
         settings.TRANS_DICT = {k: v[lan_code[code]] for k, v in settings.TRANS_REPO.items()}
 
-        settings.TRANS_DICT["end_point"] = settings.LINE_LOGIN_ENDPOINT
-        settings.TRANS_DICT["secret"] = settings.LINE_LOGIN_SECRET
-
         response = self.get_response(request)
 
         return response

@@ -19,6 +19,7 @@ def line_login(request):
         state = request.GET.get("state", None)
 
         if auth_code and state:
+            # post request to line platform
             HEADERS = {'Content-Type': 'application/x-www-form-urlencoded'}
             url = "https://api.line.me/oauth2/v2.1/token"
             FormData = {"grant_type": 'authorization_code', "code": auth_code, "redirect_uri": f"{settings.LINE_LOGIN_ENDPOINT}/users/line_login", \
@@ -44,9 +45,10 @@ def line_login(request):
             else:
                 obj, created = CustomUserModel.objects.get_or_create(userid=userID, display_name=name)
             
+            # authenticate the user and sign in
             user = authenticate(request, userid=userID, display_name=name)
 
-            if user is not None:
+            if user:
                 login(request, user)
 
             # get language mode from cookie
@@ -57,5 +59,7 @@ def line_login(request):
             url = f"/plants/lan_mode?code={code}&next={next}"
 
             return redirect(url)
-        # else:
-        #     return render(request, "users/line_login.html", settings.TRANS_DICT)
+        else:
+            settings.TRANS_DICT["end_point"] = settings.LINE_LOGIN_ENDPOINT
+            settings.TRANS_DICT["id"] = settings.LINE_LOGIN_ID
+            return render(request, "users/line_login.html", settings.TRANS_DICT)

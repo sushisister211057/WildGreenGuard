@@ -2,6 +2,35 @@
 {% load static %}
 {% block content %}
 
-line login
+<div class="container d-flex justify-content-center align-items-center min-vh-100" style="border: 1px solid brown;">
+<div class="modal modal-sheet position-static d-block p-4 py-md-5 min-vw-100" tabindex="-1" role="dialog" id="modalChoice">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content rounded-3 shadow">
+        <div class="modal-body p-4 text-center">
+          <h5 class="mb-0">使用line註冊為會員</h5>
+          <p class="mb-0">加入會員，即可享有"歷史紀錄查詢"的功能</p>
+          <p class="mb-0"><small>5秒後自動跳轉至登入畫面</small></p>
+        </div>
+        <div class="modal-footer flex-nowrap p-0">
+          <a href="{% url 'plants:index' %}" class="btn btn-lg btn-link fs-6 text-decoration-none col py-3 m-0 rounded-0">下次再說</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<script type="text/javascript">
+    function Auth() {
+    let URL = 'https://access.line.me/oauth2/v2.1/authorize?';
+    URL += 'response_type=code';
+    URL += '&client_id={{ id }}';  //請換成你自己的 client_id
+    URL += '&redirect_uri={{ endpoint }}'; //請換成你自己的 callback url
+    URL += '&scope=profile%20openid%20email';
+    URL += '&state=123453sdfgfd';
+    // redirect to line login
+    window.location.href = URL;
+}
+    // activate when window onload
+    window.onload = setTimeout(Auth, 5000);
+</script>
 {% endblock %}

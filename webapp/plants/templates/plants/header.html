@@ -23,7 +23,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                            資料
+                            {{ dt }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{% url 'plants:diagram' %}">{{ data }}</a></li>
@@ -34,7 +34,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" data-bs-toggle="dropdown" aria-expanded="false">
-                            關於
+                            {{ about }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{% url 'plants:developers' %}">{{ dev }}</a></li>

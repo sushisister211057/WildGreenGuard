@@ -166,9 +166,13 @@ LINE_LOGIN_SECRET = "67bf2a23e51e07eb4d4dd34830f68d67"
 LINE_LOGIN_ENDPOINT = "https://ce5e-2001-b400-e35d-9b93-70ec-4cac-94f-409f.ngrok-free.app"
 LINE_LOGIN_ENDPOINT += "/users/line_login"
 LINE_LOGIN_ID = 2002587486
-# for line api
-LINE_API_URL = ""
 
+# for line api
+LINE_API_URL = "https://e1fe-111-249-7-124.ngrok-free.app/"
+
+# for tensorflow/serving
+IM_SIZE = 360
+TF_SERVE_URL = "http://34.69.30.163:8501/v1/models/model:predict"
 
 # translate json 
 TRANS_REPO = {}

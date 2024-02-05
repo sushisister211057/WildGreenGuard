@@ -2,15 +2,15 @@
 {% load static %}
 {% block content %}
 
-<div class="container text-center">
+<div class="container text-center mt-3">
   <div class="row align-items-start">
     <div class="row">
-        <div class="container d-flex justify-content-center border border-success  w-auto h-auto">
-           {% if image %}
-        <img src="{{ image.url }}" id="instance_image" class="img-fluid ms-1">
-        {% else %}
-        <img src="{% static 'plants/images/no_image_square.jpg' %}" id="display_image" class="img-fluid">
-        {% endif %}
+        <div class="container d-flex justify-content-center border border-success" style="height: 400px; width: 400px;">
+          {% if image %}
+          <img src="{{ image }}" id="display_image" class="img-fluid ms-1 w-auto h-auto">
+          {% else %}
+          <img src="{% static 'plants/images/no_image_square.jpg' %}" id="display_image" class="img-fluid w-auto h-auto">
+          {% endif %}
         </div>
       <form action="{% url 'plants:identifier' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}

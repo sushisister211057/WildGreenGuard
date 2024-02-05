@@ -1,4 +1,3 @@
-
 function uploadtrigger(){
     const imageInput = document.getElementById("image_input");
     imageInput.click();
@@ -9,7 +8,7 @@ function showImg(){
     const preimg = document.getElementById("display_image");
     const imgbutton = document.getElementById("imgbutton");
     const reader = new FileReader();
-    
+
     reader.addEventListener("load", () => {
         preimg.src = reader.result;
     });
@@ -21,7 +20,7 @@ function showImg(){
         imgbutton.disabled = true;
     }
 
-    console.log(imageInput.files[0]);
+    // console.log(imageInput.files[0]);
 };
 
 

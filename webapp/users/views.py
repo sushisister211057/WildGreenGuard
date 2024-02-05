@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login
 # Create your views here.
 
 
+# doing line login and get/create the user then login web
 def line_login(request):
 
     if request.method == 'GET':
@@ -63,3 +64,8 @@ def line_login(request):
             settings.TRANS_DICT["end_point"] = settings.LINE_LOGIN_ENDPOINT
             settings.TRANS_DICT["id"] = settings.LINE_LOGIN_ID
             return render(request, "users/line_login.html", settings.TRANS_DICT)
+        
+# route for line richmenu to auto-login directly
+def auto_login(request):
+    if request.method == "GET":
+        request.GET.get()

@@ -58,6 +58,9 @@ MIDDLEWARE = [
     "users.middleware.LanguageMiddleware"
 ]
 
+# add trusted sites
+CSRF_TRUSTED_ORIGINS = ["https://6c39-2001-b400-e35d-9b93-18df-471c-3e58-7ee7.ngrok-free.app/*"]
+
 ROOT_URLCONF = "myproject.urls"
 
 TEMPLATES = [
@@ -97,7 +100,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'mysql123',
         'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
-        'PORT': '3306',  # Default MySQL port
+        'PORT': '3306'  # Default MySQL port
     }
 }
 
@@ -138,6 +141,7 @@ LOGIN_URL = "/plants/"
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+# STATIC_ROOT = "/"
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR , "static"),
@@ -163,16 +167,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Line related url
 # for line login
 LINE_LOGIN_SECRET = "67bf2a23e51e07eb4d4dd34830f68d67"
-LINE_LOGIN_ENDPOINT = "https://ce5e-2001-b400-e35d-9b93-70ec-4cac-94f-409f.ngrok-free.app"
-LINE_LOGIN_ENDPOINT += "/users/line_login"
+LINE_LOGIN_ENDPOINT = "https://6c39-2001-b400-e35d-9b93-18df-471c-3e58-7ee7.ngrok-free.app/users/line_login"
 LINE_LOGIN_ID = 2002587486
 
 # for line api
-LINE_API_URL = "https://e1fe-111-249-7-124.ngrok-free.app/"
+LINE_API_URL = "https://b064-123-192-178-74.ngrok-free.app/"
 
 # for tensorflow/serving
 IM_SIZE = 360
-TF_SERVE_URL = "http://34.69.30.163:8501/v1/models/model:predict"
+TF_SERVE_URL = "http://35.209.193.111:8501/v1/models/saved_model:predict"
 
 # translate json 
 TRANS_REPO = {}
@@ -183,3 +186,18 @@ if not TRANS_REPO:
     with Path(trans_path).open("r", encoding="utf-8") as f:
         TRANS_REPO = json.load(f)
         TRANS_DICT = {k:v[0] for k, v in TRANS_REPO.items()}
+
+
+# configure STORAGES for deployment
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+#         "OPTIONS": {
+#           "GS_BUCKET_NAME": 
+#         },
+#     },
+#     "staticfiles" :{
+
+#     },
+# }
+

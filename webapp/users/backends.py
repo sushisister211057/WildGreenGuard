@@ -12,6 +12,7 @@ class CustomUserModelBackend(ModelBackend):
     def authenticate(self, request, userid=None, display_name=None, **kwargs):
         try:
             user = CustomUserModel.objects.get(userid=userid, display_name=display_name)
+            # user = CustomUserModel.objects.get(userid=userid, display_name=display_name)
         except CustomUserModel.DoesNotExist:
             return None
         return user

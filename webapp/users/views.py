@@ -1,50 +1,166 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import CustomUserModel
 from urllib import parse
 import requests
 import json
+import secrets
+import hashlib
+import jwt
 from django.conf import settings
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.middleware.csrf import get_token
 
 # Create your views here.
 
 
+# def line_login(request):
+#     # print(request.GET)
+    
+#     if request.method == "GET":
+
+#         return render(request, "users/line_login.html", settings.TRANS_DICT)
+    
+#     elif request.method == "POST":
+#         print(request.body)
+#         userid = request.POST.get("userid")
+#         display_name = request.POST.get("display_name")
+
+#         # check where the POST request from
+#         source = request.POST.get("source", "web")
+
+#         # get signup for line
+#         signup = request.POST.get("signup", False)
+
+#         # if POST from linebot, update display name if needed
+#         if signup:
+#             obj, created = CustomUserModel.objects.update_or_create(userid=userid, defaults={"display_name":display_name})
+#         print(userid, display_name, signup)
+#         # authenticate user info then login
+#         user = authenticate(request, userid=userid, display_name=display_name)
+
+#         if user:
+#             print("Good")
+#             login(request, user)
+
+#             if source == "line":
+#                 code = request.POST.get("mode")
+#             else:
+#                 # get language mode from session
+#                 code = request.session.get("lan_mode", "chi")
+            
+#             # get next 
+#             # print(request.GET)
+#             next = request.POST.get("next", default= "/plants/")
+
+#             # add parameters to lan_redirect url to redirect back to sub page.
+#             url = f"/plants/lan_mode?code={code}&next={next}"
+#             return redirect(url)         
+                
+#         else:
+#             print("here")
+#             settings.TRANS_DICT["error"] = True 
+#             return render(request, "users/line_login.html", settings.TRANS_DICT)
+
+
 def line_login(request):
+    # print(request.GET)
     
     if request.method == "GET":
 
+        source = request.GET.get("source", False)
+
+        # handle the line autologin
+        if source:
+            # get info
+            userid = request.GET.get("userid")
+            encoded = request.GET.get("token")
+            mode = request.GET.get("mode")
+            print(encoded, type(encoded))
+
+            key = CustomUserModel.objects.get(userid=userid).password
+
+            decoded = jwt.decode(encoded, key, algorithms="HS256")
+
+            # extract userid and display_name
+            userid, display_name = list(decoded.items())[0]
+
+            user = authenticate(request, userid=userid, display_name=display_name)
+
+            if user:
+                print("Good")
+                login(request, user)
+                print(request.user.is_authenticated)
+
+                url = f"/plants/lan_mode?mode={mode}&next=/plants/"
+
+                return redirect(url)
+            
+            else:
+                print("here")
+                settings.TRANS_DICT["error"] = True 
+                return render(request, "users/line_login.html", settings.TRANS_DICT)
+
+
         return render(request, "users/line_login.html", settings.TRANS_DICT)
     
-    if request.method == "POST":
-
+    # for web login
+    elif request.method == "POST":
+        print(request.body)
         userid = request.POST.get("userid")
         display_name = request.POST.get("display_name")
 
-        # get where the info from
-        source = request.POST.get("source", "")
-
-        # if POST from linebot, update display name if needed
-        if source:
-            obj, created = CustomUserModel.objects.update_or_create(userid=userid, defaults={"display_name":display_name})
-                
         # authenticate user info then login
         user = authenticate(request, userid=userid, display_name=display_name)
 
         if user:
+            print("Good")
             login(request, user)
-            # get language mode from cookie
-            code = request.session.get("lan_mode", "chi")
-            # get next 
-            next = request.GET.get("next", default= "/plants/")
-            # add parameters to lan_redirect url to redirect back to sub page.
-            url = f"/plants/lan_mode?code={code}&next={next}"
 
-            return redirect(url)
-        
+            # get language mode from session
+            mode = request.session.get("lan_mode", "chi")
+            
+            # get next 
+            next = request.POST.get("next", default= "/plants/")
+
+            # add parameters to lan_redirect url to redirect back to sub page.
+            url = f"/plants/lan_mode?mode={mode}&next={next}"
+            return redirect(url)         
+                
         else:
-            settings.TRANS_DICT["error"] = True  
-            return render("users:line_login", settings.TRANS_DICT)
+            print("here")
+            settings.TRANS_DICT["error"] = True 
+            return render(request, "users/line_login.html", settings.TRANS_DICT)
+
+def get_access_token(request):
+
+    if request.method == "POST":
+
+        # extract userid and name
+        userid = request.POST.get("userid")
+        display_name = request.POST.get("display_name")
+        key = secrets.token_urlsafe(32)
+
+        obj, created = CustomUserModel.objects.update_or_create(userid=userid, defaults={"display_name":display_name, "password":key})
+
+        # generate key for jwt and save into session
+        # hash_user = hashlib.sha256(userid.encode("utf-8")).hexdigest()
+
+        # print("access", userid.encode("utf-8"), hash_user)
+
+        # encode by jwt
+        encoded = jwt.encode({userid:display_name}, key, algorithm="HS256")
+        print(encoded)
+        return JsonResponse({"token": encoded})
+
+def csrf_token(request):
+    csrf_token = get_token(request)
+    return JsonResponse({"csrf_token": csrf_token})
+
+
+def line_logout(request):
+    logout(request)
+    return redirect("plants:index")
     
 # doing line login and get/create the user then login web
 # def line_login(request):

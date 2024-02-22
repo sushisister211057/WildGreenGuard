@@ -9,23 +9,24 @@
           {% if image %}
           <img src="{{ image }}" id="display_image" class="img-fluid ms-1 w-auto h-auto">
           {% else %}
-          <img src="{% static 'plants/images/no_image_square.jpg' %}" id="display_image" class="img-fluid w-auto h-auto">
+          <img src="" id="display_image" class="img-fluid w-auto h-auto">
           {% endif %}
         </div>
       <form action="{% url 'plants:identifier' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <label for="image_input" id="file_label">
-          Image
           <input type="file" id="image_input" name="image_input" accept="image/jpeg, image/png, image/jpg"
             style="display: none" onchange="showImg()">
         </label>
 
-        <button type="button" class="btn btn-primary" id="upload_button" onclick="uploadtrigger()">Choose image</button>
-        <button type="submit" class="btn btn-success" id="imgbutton" disabled>Confirm</button>
+        <button type="button" class="btn btn-primary my-3" id="upload_button" onclick="uploadtrigger()">{{ selectf }}</button>
+        <button type="submit" class="btn btn-success mb-3" id="imgbutton" disabled>{{ confirm }}</button>
       </form>
     </div>
     <div class="row text-center">
-      <p>Result</p>
+      <p>判讀結果: <br>
+        物種名稱: {{ species }} <br>
+        為外來種: {{ isinvasive }}
+      </p>
     </div>
   </div>
 </div>

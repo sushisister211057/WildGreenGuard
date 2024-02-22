@@ -11,7 +11,9 @@ import json
 import io
 from .lineapi import save_user_data, get_user_data
 from django.template import loader
-from asgiref.sync import async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
+from PIL import Image
+import hashlib
 # Create your views here.
 
 pre_img = ""
@@ -50,15 +52,22 @@ def identifier(request):
             buffer.write(chunk)
         buffer.seek(0)
         img_byte = buffer.read()
-        print(type(img_byte))
+        im = Image.open(buffer)
+        print(type(img_byte), type(im))
         
         species, isinvasive = preditor(img_byte)
+
+        settings.TRANS_DICT["species"] = species
+        settings.TRANS_DICT["isinvasive"] = isinvasive
+
         # save data if user is autheticated
         if request.user.is_authenticated:
             # do save data
             userid = request.user.userid
-            async_to_sync(save_user_data)(userid, img_byte, species)
-        
+            # save user im to gcs
+            print(userid)
+            async_to_sync(save_user_data)(userid, img_byte, species, isinvasive)
+
         return render(request, "plants/identifier.html", settings.TRANS_DICT)
 
     else:
@@ -67,32 +76,38 @@ def identifier(request):
 
 # return yolov8 present model
 def rt_identifier(request):
-    print([(obj["scientific_name"], obj["isinvasive"]) for obj in \
-         Plant.objects.order_by("scientific_name").values("scientific_name", "isinvasive")])
     pass
+
+# hash_user = hashlib.sha256("userid".encode("utf-8")).hexdigest()
+# request.session[hash_user] = "123"
+# key = request.session.get(hash_user)
+# print(key)
+# userid = request.user.userid
+# userid = "Uea2325d897976dda7912258a6aa1abe3"
+# user_data = async_to_sync(get_user_data)(userid)
+# print(user_data)
+# print([name for _, name in [Plant.objects.order_by("scientific_name").values("scientific_name")]])
 
 # set index
 def index(request):
+    print("index", request.user.is_authenticated)
     return render(request, "plants/index.html", settings.TRANS_DICT)
 
 # retrieve records
 @login_required
 def records(request):
     if request.method == "GET":
-        pass
-
-    if request.method == "POST":
-        data = request.POST
-
-    return render(request, "plants/records.html", settings.TRANS_DICT)
+        userid = request.user.userid
+        user_records = async_to_sync(get_user_data)(userid)
+        print(type(user_records))
+        user_records = user_records[0]["records"]
+        settings.TRANS_DICT["user_records"] = user_records
+        return render(request, "plants/records.html", settings.TRANS_DICT)
 
 # list all available species
 def diagram(request):
-    # userid = request.user.userid
-    userid = "U3dcfb815c81a9428865e4ed5d257c4cc"
-    user_data = async_to_sync(get_user_data)(userid)
-    print(user_data)
-    # print([name for _, name in [Plant.objects.order_by("scientific_name").values("scientific_name")]])
+    plants = Plant.objects.all()
+    settings.TRANS_DICT["plants"] = plants
     return render(request, "plants/diagram.html", settings.TRANS_DICT)
 
 # list all developers
@@ -108,10 +123,10 @@ def freq_question(request):
 def lan_mode(request):
     # language, source path, line userid
     if request.method == "GET":
-        code = request.GET.get("code", default= "chi")
+        mode = request.GET.get("mode", default= "chi")
         next = request.GET.get("next", default= "index")
 
         # set lan_mode value
-        request.session["lan_mode"] = code
+        request.session["lan_mode"] = mode
 
         return redirect(next)

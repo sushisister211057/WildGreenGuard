@@ -14,25 +14,34 @@ from pathlib import Path
 import os
 import json
 from dotenv import load_dotenv
-
-# load .env variables
-load_dotenv()
+from google.oauth2 import service_account
+from storages.backends.gcloud import GoogleCloudStorage
+import requests
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+# load .env variables
+load_dotenv()
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-cs9xr^ev95*y4fi3tryl-3)h67gn(y#wmavseo+8jf(2a$97=l"
+SECRET_KEY = os.environ["SECRET_KEY"]
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = [os.environ["DNS"], os.environ["WEB_DNS"], os.environ["LINE_DNS"], "34.173.235.152", "localhost", "127.0.0.1"]
 ALLOWED_HOSTS = ["*"]
 
+# add trusted sites
+CSRF_TRUSTED_ORIGINS = ["https://" + os.environ["DNS"] + "/*", 
+                        "http://" + os.environ["WEB_DNS"] + "/*",
+                        "http://" + os.environ["LINE_DNS"] + "/*"]
 
 # Application definition
 
@@ -58,8 +67,7 @@ MIDDLEWARE = [
     "users.middleware.LanguageMiddleware"
 ]
 
-# add trusted sites
-CSRF_TRUSTED_ORIGINS = ["https://6c39-2001-b400-e35d-9b93-18df-471c-3e58-7ee7.ngrok-free.app/*"]
+
 
 ROOT_URLCONF = "myproject.urls"
 
@@ -73,7 +81,7 @@ TEMPLATES = [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
+                "django.contrib.messages.context_processors.messages"
             ],
         },
     },
@@ -96,11 +104,11 @@ DATABASES = {
     # },
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'plants',
-        'USER': 'root',
-        'PASSWORD': 'mysql123',
-        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
-        'PORT': '3306'  # Default MySQL port
+        'NAME': os.environ["DB_NAME"],
+        'USER': os.environ["DB_USER"],
+        'PASSWORD': os.environ["DB_PASSWORD"],
+        'HOST': os.environ["DB_HOST"],  # Or an IP Address that your DB is hosted on
+        'PORT': int(os.environ["DB_PORT"])  # Default MySQL port
     }
 }
 
@@ -141,14 +149,14 @@ LOGIN_URL = "/plants/"
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-# STATIC_ROOT = "/"
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR , "static"),
-]
+STATIC_ROOT = ""
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR , "plants"),
+# ]
 
 # Media files
-
 # Base url to serve media files
 MEDIA_URL = '/media/'
 # Path where media is stored
@@ -164,40 +172,62 @@ AUTHENTICATION_BACKENDS = ["users.backends.CustomUserModelBackend"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Line related url
-# for line login
-LINE_LOGIN_SECRET = "67bf2a23e51e07eb4d4dd34830f68d67"
-LINE_LOGIN_ENDPOINT = "https://6c39-2001-b400-e35d-9b93-18df-471c-3e58-7ee7.ngrok-free.app/users/line_login"
-LINE_LOGIN_ID = 2002587486
-
 # for line api
-LINE_API_URL = "https://b064-123-192-178-74.ngrok-free.app/"
+# LINE_API_URL = "http://" + os.environ["LINE_DNS"] + ":5000/"
+LINE_API_URL = "https://5b25-219-68-41-197.ngrok-free.app/"
+
+# for yolo api
+YOLO_API_URL = "http://127.0.0.1:5000/"
 
 # for tensorflow/serving
-IM_SIZE = 360
-TF_SERVE_URL = "http://35.209.193.111:8501/v1/models/saved_model:predict"
+IM_SIZE = int(os.environ["IM_SIZE"])
+TF_SERVE_URL = os.environ["TF_SERVE_URL"]
 
 # translate json 
 TRANS_REPO = {}
 TRANS_DICT = {}
 
-if not TRANS_REPO:
+
+if DEBUG:
     trans_path = f"{BASE_DIR}/plants/static/plants/json/translate.json"
-    with Path(trans_path).open("r", encoding="utf-8") as f:
-        TRANS_REPO = json.load(f)
-        TRANS_DICT = {k:v[0] for k, v in TRANS_REPO.items()}
+    if not TRANS_REPO:
+        with Path(trans_path).open("r", encoding="utf-8") as f:
+            TRANS_REPO = json.load(f)
+else:
+    trans_url = "https://storage.googleapis.com/green01/static/plants/json/translate.json"
+    res = requests.get("https://storage.googleapis.com/green01/static/plants/json/translate.json")
+    TRANS_REPO = json.loads(res.content)
+
+TRANS_DICT = {k:v[0] for k, v in TRANS_REPO.items()}
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "myproject/wildgreen-411520-37d993c760f1.json"
 
 
 # configure STORAGES for deployment
 # STORAGES = {
 #     "default": {
-#         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
-#         "OPTIONS": {
-#           "GS_BUCKET_NAME": 
-#         },
+#         "BACKEND": "django.core.files.storage.FileSystemStorage",
 #     },
 #     "staticfiles" :{
-
+#         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+#         "OPTIONS": {
+#             "bucket_name": "green01",
+#             "location": "static",
+#         }
 #     },
 # }
 
+# for logging setting
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+}

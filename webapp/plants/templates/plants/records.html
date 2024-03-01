@@ -1,0 +1,61 @@
+{% extends "plants/base.html" %}
+{% load static %}
+{% load custom_filter %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    {% for record in user_records %}
+    <div class="card p-0 ms-2" style="width: 18rem;">
+         <img src="{{ record.imgurl }}" class="card-img-top" alt="..."> 
+        <div class="card-body">
+            <h5 class="card-title">
+                {% with name=record.species %}
+                    {% if name == "Ageratum_houstonianum" %}
+                        {{ Ageratum_houstonianum }}
+                    {% elif name == "Amaranthus_spinosus" %}
+                        {{ Amaranthus_spinosus }}
+                    {% elif name == "Bidens_pilosa_var_radiata" %}
+                        {{ Bidens_pilosa_var_radiata }}
+                    {% elif name == "Celosia_argentea" %}
+                        {{ Celosia_argentea }}
+                    {% elif name == "Chloris_barbata" %}
+                        {{ Chloris_barbata }}
+                    {% elif name == "Crassocephalum_crepidioides" %}
+                        {{ Crassocephalum_crepidioides }}
+                    {% elif name == "Cynodon_dactylon" %}
+                        {{ Cynodon_dactylon }}
+                    {% elif name == "Eleusine_indica" %}
+                        {{ Eleusine_indica }}
+                    {% elif name == "Lantana_camara" %}
+                        {{ Lantana_camara }}
+                    {% elif name == "Leucaena_leucocephala" %}
+                        {{ Leucaena_leucocephala }}
+                    {% elif name == "Mikania_micrantha" %}
+                        {{ Mikania_micrantha }}
+                    {% elif name == "Miscanthus_species" %}
+                        {{ Miscanthus_species }}
+                    {% elif name == "Pennisetum_purpureum" %}
+                        {{ Pennisetum_purpureum }}
+                    {% elif name == "Syngonium_podophyllum" %}
+                        {{ Syngonium_podophyllum }}
+                    {% elif name == "Tithonia_diversifolia" %}
+                        {{ Tithonia_diversifolia }}
+                    {% endif %}                        
+                {% endwith %}
+            </h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {% if record.isinvasive %}
+                        {{ insp }}
+                    {% else %}
+                        {{ nasp }}
+                    {% endif %}
+                </li>
+                <li class="list-group-item">{{ record.datetime|split:"T" }}</li>
+                
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

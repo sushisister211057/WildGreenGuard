@@ -1,0 +1,98 @@
+{% extends "plants/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-5">
+    {% for plant in plants %}
+
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row no-gutters">
+            <div class="col-md-4  d-flex align-items-center">
+                <img src="{{ plant.imgurl }}" alt="{{ plant.scientific_name }}"
+                    class="responsive-image">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {% with name=plant.scientific_name %}
+                            {% if name == "Ageratum_houstonianum" %}
+                                {{ Ageratum_houstonianum }}
+                            {% elif name == "Amaranthus_spinosus" %}
+                                {{ Amaranthus_spinosus }}
+                            {% elif name == "Bidens_pilosa_var_radiata" %}
+                                {{ Bidens_pilosa_var_radiata }}
+                            {% elif name == "Celosia_argentea" %}
+                                {{ Celosia_argentea }}
+                            {% elif name == "Chloris_barbata" %}
+                                {{ Chloris_barbata }}
+                            {% elif name == "Crassocephalum_crepidioides" %}
+                                {{ Crassocephalum_crepidioides }}
+                            {% elif name == "Cynodon_dactylon" %}
+                                {{ Cynodon_dactylon }}
+                            {% elif name == "Eleusine_indica" %}
+                                {{ Eleusine_indica }}
+                            {% elif name == "Lantana_camara" %}
+                                {{ Lantana_camara }}
+                            {% elif name == "Leucaena_leucocephala" %}
+                                {{ Leucaena_leucocephala }}
+                            {% elif name == "Mikania_micrantha" %}
+                                {{ Mikania_micrantha }}
+                            {% elif name == "Miscanthus_species" %}
+                                {{ Miscanthus_species }}
+                            {% elif name == "Pennisetum_purpureum" %}
+                                {{ Pennisetum_purpureum }}
+                            {% elif name == "Syngonium_podophyllum" %}
+                                {{ Syngonium_podophyllum }}
+                            {% elif name == "Tithonia_diversifolia" %}
+                                {{ Tithonia_diversifolia }}
+                            {% endif %}                        
+                        {% endwith %}
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        {% if plant.isinvasive %}
+                        外來種
+                        {% else %}
+                        非外來種
+                        {% endif %}
+                    </h6>
+                    <p class="card-text">
+                        {% with des=plant.description %}
+                            {% if des == "ahdes" %}
+                                {{ ahdes }}
+                            {% elif des == "asdes" %}
+                                {{ asdes }}
+                            {% elif des == "bpvrdes" %}
+                                {{ bpvrdes }}
+                            {% elif des == "cades" %}
+                                {{ cades }}
+                            {% elif des == "cbdes" %}
+                                {{ cbdes }} 
+                            {% elif des == "ccdes" %}
+                                {{ ccdes }}
+                            {% elif des == "eides" %}
+                                {{ eides }}
+                            {% elif des == "lcdes" %}
+                                {{ lcdes }}
+                            {% elif des == "lldes" %}
+                                {{ lldes }}
+                            {% elif des == "mmdes" %}
+                                {{ mmdes }} 
+                            {% elif des == "ppdes" %}
+                                {{ ppdes }}
+                            {% elif des == "msdes" %}
+                                {{ msdes }}
+                            {% elif des == "spdes" %}
+                                {{ spdes }}
+                            {% elif des == "tddes" %}
+                                {{ tddes }}    
+                            {% endif %}
+                        {% endwith %}
+                    </p>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div> 
+{% endblock %}

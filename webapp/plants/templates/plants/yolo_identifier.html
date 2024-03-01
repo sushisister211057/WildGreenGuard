@@ -1,0 +1,28 @@
+{% extends "plants/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container text-center mt-3">
+  <div class="row align-items-start">
+    <div class="row">
+        <div class="container d-flex justify-content-center border border-success" style="height: 400px; width: 400px;">
+          {% if image_yolo %}
+          <img src="{{ image_yolo }}" id="display_image_yolo" class="img-fluid ms-1 w-auto h-auto">
+          {% else %}
+          <img src="" id="display_image_yolo" class="img-fluid w-auto h-auto">
+          {% endif %}
+        </div>
+      <form action="{% url 'plants:yolo_identifier' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+          <input type="file" id="image_input_yolo" name="image_input_yolo" accept="image/jpeg, image/png, image/jpg"
+            style="display: none" onchange="showImg('image_input_yolo', 'display_image_yolo', 'imgbutton_yolo')">
+        </label>
+
+        <button type="button" class="btn my-3" id="upload_button_yolo" onclick="uploadtrigger('image_input_yolo')">{{ selectf }}</button>
+        <button type="submit" class="btn btn-success mb-3" id="imgbutton_yolo" disabled>{{ confirm }}</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

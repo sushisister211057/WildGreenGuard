@@ -1,0 +1,40 @@
+{% extends "plants/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container text-center mt-3">
+  <div class="row align-items-start">
+    <div class="row">
+        <div class="container d-flex justify-content-center border border-success" style="height: 400px; width: 400px;">
+          {% if image %}
+          <img src="{{ image }}" id="display_image" class="img-fluid ms-1 w-auto h-auto">
+          {% else %}
+          <img src="" id="display_image" class="img-fluid w-auto h-auto">
+          {% endif %}
+        </div>
+      <form action="{% url 'plants:identifier' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+          <input type="file" id="image_input" name="image_input" accept="image/jpeg, image/png, image/jpg"
+            style="display: none" onchange="showImg('image_input', 'display_image', 'imgbutton')">
+        </label>
+
+        <button type="button" class="btn my-3" id="upload_button" onclick="uploadtrigger('image_input')">{{ selectf }}</button>
+        <button type="submit" class="btn btn-success mb-3" id="imgbutton" disabled>{{ confirm }}</button>
+      </form>
+    </div>
+    <div class="row text-center">
+      {% if species_name != "noinput" %}
+      <p>{{ res }}: <br>
+        {{ species_name }} 
+        {% if isinvasive %}
+          {{ insp }}
+        {% else %}
+          {{ nasp }}
+        {% endif %}
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

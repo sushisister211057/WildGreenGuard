@@ -1,0 +1,69 @@
+{% extends "plants/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100 mt-5" style="border: 1px;border-color: brown;">
+  <div class="modal modal-sheet position-static d-block p-4 py-md-5 min-vw-100" tabindex="-1" role="dialog"
+    id="modalChoice">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content rounded-3 shadow">
+        <div class="modal-body p-4 text-center">
+          <div class="container text-center">
+            <div class="row align-items-start">
+              <div class="col">
+                <h4>{{ scanqr }}</h4>
+                <img class="mb-4" src="{% static 'users/images/linebot_qrcode.png' %}" alt="login_qrcode" width="200" height="200">
+              </div>
+              <div class="col">
+                <form method="POST" action="{% url 'users:line_login' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.GET.next }}">
+                  <img class="mb-4" src="{% static 'plants/images/earth_nature_futaba.png' %}" alt="plants_logo" width="57" height="57">
+                  <h2 class="h3 mb-3 fw-normal">{{ psi }}</h2>
+
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="userid" placeholder="userid">
+                    <label for="userid">{{ id }}</label>
+                  </div>
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="display_name" placeholder="name">
+                    <label for="display_name">{{ username }}</label>
+                  </div>
+                  <button class="my-2 btn btn-primary w-100 py-2" type="submit">{{ signin }}</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-0">
+          {% if error %}
+            <p class="my-2 text-start text-break">{{ login_error }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    function Auth() {
+      let URL = 'https://access.line.me/oauth2/v2.1/authorize?';
+      URL += 'response_type=code';
+      URL += '&client_id={{ id }}';  //請換成你自己的 client_id
+      URL += '&redirect_uri={{ endpoint }}'; //請換成你自己的 callback url
+      URL += '&scope=profile%20openid%20email';
+      URL += '&state=123453sdfgfd';
+      // redirect to line login
+      window.location.href = URL;
+    }
+    // activate when window onload
+    // window.onload = setTimeout(Auth, 5000);
+  </script>
+  {% endblock %}
+
+  <div class="modal-footer flex-nowrap p-0">
+  <a href="{% url 'plants:index' %}"
+    class="btn btn-lg btn-link fs-6 text-decoration-none col py-3 m-0 rounded-0">下次再說</a>
+</div>
+  <!-- <h5 class="mb-0">使用line註冊為會員</h5>
+          <p class="mb-0">加入會員，即可享有"歷史紀錄查詢"的功能</p>
+          <p class="mb-0"><small>5秒後自動跳轉至登入畫面</small></p> -->

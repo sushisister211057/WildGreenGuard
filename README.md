@@ -3,10 +3,15 @@
 
 - [WildGreenGuard](#wildgreenguard)
   - [Object](#object)
-  - [Invasive plants candidate (so far)](#invasive-plants-candidate-so-far)
+  - [Invasive plants candidate](#invasive-plants-candidate)
+    - [Plan](#plan)
+    - [Current (2023/12/18~2024/02/06)](#current-2023121820240206)
   - [Flow](#flow)
+  - [System design](#system-design)
+  - [Database Design](#database-design)
   - [Members](#members)
   - [Jobs](#jobs)
+  - [Brief Summary](#brief-summary)
   - [References](#references)
 
 
@@ -34,7 +39,8 @@
 
 - Our 
 
-## Invasive plants candidate (so far)
+## Invasive plants candidate
+### Plan
 |入侵種|相似植物|note|
 |-|-|-|
 |銀合歡||資料庫|
@@ -49,6 +55,29 @@
 |粗毛小米菊|長柄菊|拍攝|
 |昭和草|
 |豬草|
+
+### Current (2023/12/18~2024/02/06)
+|入侵種|相似植物|note|
+|-|-|-|
+|紫色霍香薊|||
+|大花咸豐草|||
+|孟仁草|||
+|昭和草|||
+|馬櫻丹|||
+|銀合歡|||
+|小花蔓澤蘭|||
+|象草|芒草||
+|合果芋|||
+|王爺葵|||
+|落地生根||候補|
+|粗毛小米菊||候補|
+
+|非入侵種|相似植物|note|
+|-|-|-|
+|刺莧|||
+|雞冠花|||
+|芒草|象草||
+|牛筋草|||
 
 
 ## Flow
@@ -68,6 +97,16 @@
    [tensorflow.js](https://js.tensorflow.org/api/latest/#Tensors), [tensorflow.js_Basic use](https://www.tensorflow.org/js/tutorials/conversion/import_keras, ), [onnx.js](https://onnxruntime.ai/docs/api/js/index.html))
     3. Perform the model on edge device with [tensorflow lite](https://www.tensorflow.org/lite).  
 
+
+## System design
+
+![system diagram](./images/System%20Diagram.png)
+
+## Database Design
+
+![database diagram](./images/Database%20Diagram.png)
+
+
 ## Members
 
 Leader: 17_張家銘   
@@ -77,12 +116,29 @@ Members: 04_梁鈞翔, 12_許庭瑊, 16_呂星緯, 22_張雅婷, 31_何耿廷, 3
 |Job|Subgroup Leader|Subgroup Members|
 |-|-|-|
 |Collect data|17_張家銘|@All|
-|Build Model|04_梁鈞翔|34_張大謙|
+|Build Model|04_梁鈞翔|31_何耿廷|
 |Build Linebot|12_許庭瑊|22_張雅婷|
-|Build Web|16_呂星緯|34_張大謙, 31_何耿廷|
+|Build Web|16_呂星緯|34_張大謙|
 |Cloud deploy|22_張雅婷|12_許庭瑊, 16_呂星緯|
 
-
+## Brief Summary
+(2023/12/18~2024/02/06)
+- Done  
+  - Number of Photos is now 5481. 
+  - Line app with identification and lookup functions.
+  - Web app with identification, FAQ and line login functions.
+  - Line app, mysql, tensorflow/serving and mongodb are online. DNS and GCP load balancing worked.
+  - Apply yolo model function with photo.
+  - Choose 5 keras pretrained models for evaluation. Current we use vgg19 for inference.
+- Ahead
+  - Number of photos of each species should be at least 350, 500 is best.
+  - Mongodb structure should be arrange.
+  - Mysql data should write into mysql in GCP VM.
+  - Line links (FAQ, Developers and Go web) to web.
+  - Web sub pages (index, diagram, records).
+  - Web line login need get userid of line message api, now is not the same.
+  - Load balancing connection.
+  - yolo application need streaming.
 
 
 ## References

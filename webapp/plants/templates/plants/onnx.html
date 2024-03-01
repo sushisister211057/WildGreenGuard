@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to Float32Array Example</title>
+</head>
+<body>
+
+<img src="" alt="" id="image" width="360" height="360" style="border:1px solid #d3d3d3">
+<br>
+<input type="file" id="fileInput" onchange="handleFile(this);">
+<pre id="output"></pre>
+<br>
+<canvas id="myCanvas" width="360" height="360" style="border:1px solid #d3d3d3;">
+    Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script>
+
+function handleFile(fileInput) {
+  const file = fileInput.files[0];
+  const img = document.getElementById("image");
+  const c = document.getElementById("myCanvas")
+
+  if (file) {
+    const reader = new FileReader();
+
+    // change img src when file upload
+    reader.onload = function(e) {
+    //   console.log(e.target)
+      const arrayBuffer = e.target.result;
+      img.src = e.target.result;
+    };
+
+    // change canvas image when img change
+    img.onload = async function() {
+    const ctx = c.getContext("2d");
+    ctx.clearRect(0, 0, c.width, c.height);
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    
+    // let image smooth
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+
+    // get data array in pixel
+    ImgData = ctx.getImageData(0, 0, c.width, c.height);
+
+    // convert rgba -> rgb
+    const array = constructArray(ImgData);
+
+    // convert array to float32array
+    const dataA = Float32Array.from(array);
+    // console.log(dataA);
+    // get prediction
+    await predict(dataA);
+  };
+
+    reader.readAsDataURL(file);
+  }
+}
+
+// remove a to make rgba to rgb
+function constructArray(imgdata){
+    let array = [];
+
+    for (let i = 0; i < imgdata.data.length; i += 4){
+        array.push(imgdata.data[i], imgdata.data[i+1], imgdata.data[i+2]);
+    };
+    return array
+};
+
+// get predictions
+async function predict(data) {
+    try {
+        const tensorA = new ort.Tensor('float32', data, [1, 360, 360, 3]);
+        // console.log(tensorA)
+
+        const session = await ort.InferenceSession.create('./model.onnx');
+        const feeds = {
+            "input_1" : tensorA
+        };
+        const results = await session.run(feeds);
+        console.log(results);
+        // console.log(results["output_1"].data);
+
+
+    } catch (e) {
+        document.write(`failed to inference ONNX model: ${e}.`);
+    }
+}
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+
+</body>
+</html>
+
+

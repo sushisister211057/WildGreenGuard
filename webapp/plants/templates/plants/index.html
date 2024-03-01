@@ -1,0 +1,17 @@
+{% extends "plants/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center mt-5 px-5">
+    <div class="col">
+        <img src="{% static 'plants/images/W.jpg' %}" class="img-thumbnail d-block" alt="...">
+    </div>
+    <div class="col">
+        <img src="{% static 'plants/images/G1.png' %}" class="img-thumbnail d-block" alt="...">
+    </div>
+    <div class="col">
+        <img src="{% static 'plants/images/G2.png' %}" class="img-thumbnail d-block" alt="...">
+    </div>
+</div>
+<h5 class="text-center  text-break pt-5">{{ webintro }}</h5>
+{% endblock %}

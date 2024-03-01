@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="這是一個便是台灣常見草的網站。" />
+    <meta name="description" content="{{ intro }}" />
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <link rel="icon" href="{% static 'plants/images/earth_nature_futaba.png' %}" type="image/x-icon">
@@ -30,9 +30,19 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'plants/lib/wow/wow.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
     <script>new WOW().init();</script>
     <script src="{% static 'plants/js/main.js' %}"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script> -->
+    <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.15.1/dist/ort.min.js"></script>
+    <script src="{% static 'plants/js/onnx.js' %}" defer></script> -->
+    <!-- <script src="{% static 'plants/js/worker.js' %}" defer></script> -->
+
+    <!-- <script lang="javascript">
+        var workerPath = "{% static 'plants/js/worker.js' %}";
+        var modelPath = "{% static 'plants/model/myyolov8.onnx' %}";
+        var wasmPath = "{% static 'plants/ort-wasm-simd.wasm' %}"
+    </script> -->
     <!-- <script>
         const session = ort.InferenceSession.create('/static/plants/model/yolo.onnx');
     </script> -->

@@ -15,18 +15,24 @@
       <form action="{% url 'plants:identifier' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
           <input type="file" id="image_input" name="image_input" accept="image/jpeg, image/png, image/jpg"
-            style="display: none" onchange="showImg()">
+            style="display: none" onchange="showImg('image_input', 'display_image', 'imgbutton')">
         </label>
 
-        <button type="button" class="btn btn-primary my-3" id="upload_button" onclick="uploadtrigger()">{{ selectf }}</button>
+        <button type="button" class="btn my-3" id="upload_button" onclick="uploadtrigger('image_input')">{{ selectf }}</button>
         <button type="submit" class="btn btn-success mb-3" id="imgbutton" disabled>{{ confirm }}</button>
       </form>
     </div>
     <div class="row text-center">
-      <p>判讀結果: <br>
-        物種名稱: {{ species }} <br>
-        為外來種: {{ isinvasive }}
+      {% if species_name != "noinput" %}
+      <p>{{ res }}: <br>
+        {{ species_name }} 
+        {% if isinvasive %}
+          {{ insp }}
+        {% else %}
+          {{ nasp }}
+        {% endif %}
       </p>
+      {% endif %}
     </div>
   </div>
 </div>

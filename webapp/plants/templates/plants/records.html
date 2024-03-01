@@ -46,9 +46,9 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     {% if record.isinvasive %}
-                        外來種
+                        {{ insp }}
                     {% else %}
-                        非外來種
+                        {{ nasp }}
                     {% endif %}
                 </li>
                 <li class="list-group-item">{{ record.datetime|split:"T" }}</li>

@@ -14,13 +14,12 @@ from .lineapi import save_user_data, get_user_data
 
 # Create your views here.
 
+# assign previous image path
 pre_img = ""
 
-
+# return image and inference or return upload button
 def identifier(request):
-    """
-    return image and inference or return upload button
-    """
+
     if request.method == "POST":
         # prepare img url for display
         upload_img = request.FILES.get("image_input")
@@ -106,13 +105,13 @@ def index(request):
     logging.debug(f"index page : {request.user.is_authenticated}")
     return render(request, "plants/index.html", settings.TRANS_DICT)
 
-# retrieve records
+# retrieve records from mongodb through line
 @login_required
 def records(request):
     if request.method == "GET":
         userid = request.user.userid
         user_records = async_to_sync(get_user_data)(userid)
-        user_records = user_records[0]["records"] # 要修正
+        user_records = user_records[0]["records"]
         logging.debug(user_records)
         settings.TRANS_DICT["user_records"] = user_records
         return render(request, "plants/records.html", settings.TRANS_DICT)

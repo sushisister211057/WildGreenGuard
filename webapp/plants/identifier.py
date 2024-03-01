@@ -7,10 +7,9 @@ from .models import Plant
 from django.conf import settings
 
 size = settings.IM_SIZE
-names = [(obj["scientific_name"], obj["isinvasive"]) for obj in \
-         Plant.objects.order_by("scientific_name").values("scientific_name", "isinvasive")]
+names = []
 
-def preditor(img_byte):
+def predictor(img_byte):
     instance = preprocessing(img_byte)
     
     data = json.dumps({
@@ -18,14 +17,17 @@ def preditor(img_byte):
     })
     
     res = requests.post(settings.TF_SERVE_URL, data=data)
-    print(res.json())
     predictions = res.json()["predictions"]
-    print(predictions)
-    idx = np.argmax(predictions, axis=1)
-
-    # species, isinvasive = names[idx]
+    idx = np.argmax(predictions, axis=1)[0]
     
-    # return species, isinvasive
+    global names
+    if not names:
+        names = [(obj["scientific_name"], obj["isinvasive"]) for obj in \
+        Plant.objects.order_by("scientific_name").values("scientific_name", "isinvasive")]
+
+    species, isinvasive = names[int(idx)]
+
+    return species, isinvasive
 
 def preprocessing(img_byte):
     im = Image.open(io.BytesIO(img_byte))

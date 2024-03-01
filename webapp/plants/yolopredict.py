@@ -10,6 +10,8 @@ async def yolo_predict(input):
     post image byte to yolo model for predicting
 
     input: byte of image
+
+    return predict image in bytes
     """
     files = {"file": ("image", input, "image/jpeg")}
     res = requests.post(url=settings.YOLO_API_URL, files=files)

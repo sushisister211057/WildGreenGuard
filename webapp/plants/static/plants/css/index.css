@@ -2,7 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: "Times New Roman", "Microsoft JhengHei", sans-serif;
+    font-family: "GenJyuuGothic", "Times New Roman", "Microsoft JhengHei", "sans-serif";
 }
 
 h1,
@@ -18,10 +18,10 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #e6ebe0;
 }
 
 header {
-    background-color: #f8f9fa;
     padding: 10px 20px;
 }
 
@@ -35,6 +35,10 @@ nav,
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
+}
+
+.nav-container {
+    background-color: #e6ebe0;
 }
 
 nav ul,
@@ -61,9 +65,8 @@ nav ul,
 }
 
 .navbar-toggler {
-    background-color: #84ff00;
     border: none;
-    color: #ffffff;
+    color: #cce3de;
     padding: 10px 15px;
     cursor: pointer;
 }
@@ -80,19 +83,6 @@ nav ul,
         display: none;
     }
 }
-
-/* main {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} */
-
-/* main>div {
-    text-align: center;
-    padding: 20px; */
-    /* 調整內容的內邊距 */
-/* } */
 
 /* 將資料庫、辨識紀錄、語言、Q&A、Line 排列在右邊 */
 .navbar-nav {
@@ -138,7 +128,7 @@ button {
 .navbar .navbar-nav .nav-item:active .nav-link {
     color: black;
     /* Change this to the color you want when active/focused */
-    background-color: rgb(165, 208, 96);
+    background-color:#adcd90;
     /* Change this to the background color you want when active/focused */
 }
 
@@ -148,7 +138,7 @@ button {
 .navbar .navbar-nav .nav-item.dropdown:active .dropdown-menu .dropdown-item {
     color: black;
     /* Change this to the color you want when active/focused */
-    background-color: rgb(165, 208, 96);
+    background-color: #ffffff;
     /* Change this to the background color you want when active/focused */
 }
 
@@ -173,6 +163,8 @@ button {
     }
 }
 
+
+
 /* title icon */
 .title-icon {
     max-width: 50px;
@@ -181,5 +173,27 @@ button {
     /* Adjust the maximum height as needed */
     width: auto;
     height: auto;
-    vertical-align: middle;
+    vertical-align: top;
+}
+
+/* title-name */
+.title-name {
+    font-size: 22px;
+}
+
+/* diagram figure */
+.responsive-image {
+    width: 100%;
+    height: auto
+}
+
+.img-thumbnail {
+    padding: 0; /* Set padding to 0 */
+    margin: 0; /* Optionally set margin to 0 if needed */
+    border-color: #adcd90;
+}
+
+#upload_button, #upload_button_yolo {
+    background-color: #00b4d8;
+    color: white;
 }

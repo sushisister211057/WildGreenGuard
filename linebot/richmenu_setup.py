@@ -21,7 +21,8 @@ body = {
     "areas":[                                   # 選單內容
         {
             "bounds": {"x": 0, "y": 0, "width": 833, "height": 200},# 中文按鈕座標及大小
-            "action": {"type": "postback", "data": "no-data"} # 中文按鈕使用postback
+            "action": {"type": "richmenuswitch", "richMenuAliasId": "chinese",
+                    "data": "richmenu-changed-to-chinese"} # 中文按鈕使用postback data要改richmenu-changed-to-chinese
         },
         {
             "bounds": {"x": 834, "y": 0, "width":833, "height": 200}, # English按鈕座標及大小
@@ -35,11 +36,11 @@ body = {
         },
         {
             "bounds": {"x": 0, "y": 201, "width":833, "height": 740}, # 常見問題按鈕座標及大小
-            "action": {"type": "uri", "uri": "https://taiwan.wwg.solutions/plants/FAQ" }
+            "action": {"type": "uri", "uri": "https://taiwan.wwg.solutions/plants/lan_mode?mode=chi&next=/plants/FAQ"}
         },
         {
             "bounds": {"x": 834, "y": 201, "width":833, "height": 740}, # 開發人員按鈕座標及大小
-            "action":{"type": "uri", "uri": "https://taiwan.wwg.solutions/plants/developers"}
+            "action":{"type": "uri", "uri": "https://taiwan.wwg.solutions/plants/lan_mode?mode=chi&next=/plants/developers"}
         },
         {
             "bounds": {"x": 1667, "y": 201, "width":833, "height": 740}, # 網頁按鈕座標及大小
@@ -51,7 +52,7 @@ body = {
         },
         {
             "bounds": {"x": 1251, "y": 941, "width":1250, "height": 740}, # 歷史紀錄查詢按鈕座標及大小
-            "action": {"type": "postback", "data": "{'action': 'search', 'skip': 0}"} 
+            "action": {"type": "postback", "data": "{\"action\": \"search\", \"skip\": 0}"} 
         }
     ]
 }
@@ -98,7 +99,8 @@ body = {
         },
         {
             "bounds": {"x": 834, "y": 0, "width":833, "height": 200}, # English按鈕座標及大小
-            "action": {"type": "postback", "data": "no-data"} # 英文按鈕使用postback 
+            "action": {"type": "richmenuswitch", "richMenuAliasId": "english",
+                    "data": "richmenu-changed-to-english"} # 英文按鈕使用postback data要改richmenu-changed-to-english
         },
         {
             "bounds": {"x": 1667, "y": 0, "width":833, "height": 200}, # 日本語按鈕座標及大小
@@ -123,7 +125,7 @@ body = {
         },
         {
             "bounds": {"x": 1251, "y": 941, "width":1250, "height": 740}, # 歷史紀錄查詢按鈕座標及大小
-            "action": {"type": "postback", "data": "{'action': 'search', 'skip': 0}"} 
+            "action": {"type": "postback", "data": "{\"action\": \"search\", \"skip\": 0}"}  
         }
     ]
 }
@@ -175,7 +177,8 @@ body = {
         },
         {
             "bounds": {"x": 1667, "y": 0, "width":833, "height": 200}, # 日本語按鈕座標及大小
-            "action": {"type": "postback", "data": "no-data"} # 日文按鈕使用postback
+            "action": {"type": "richmenuswitch", "richMenuAliasId": "japanese",
+                    "data": "richmenu-changed-to-japanese"} # 日文按鈕使用postback data要改richmenu-changed-to-japanese
         },
         {
             "bounds": {"x": 0, "y": 201, "width":833, "height": 740}, # 常見問題按鈕座標及大小
@@ -183,7 +186,7 @@ body = {
         },
         {
             "bounds": {"x": 834, "y": 201, "width":833, "height": 740}, # 開發人員按鈕座標及大小
-            "action":{"type": "uri", "uri": "https://taiwan.wwg.solutions/plants//lan_mode?mode=jp&next=/plants/developers"} 
+            "action":{"type": "uri", "uri": "https://taiwan.wwg.solutions/plants/lan_mode?mode=jp&next=/plants/developers"} 
         },
         {
             "bounds": {"x": 1667, "y": 201, "width":833, "height": 740}, # 網頁按鈕座標及大小
@@ -195,7 +198,7 @@ body = {
         },
         {
             "bounds": {"x": 1251, "y": 941, "width":1250, "height": 740}, # 歷史紀錄查詢按鈕座標及大小
-            "action": {"type": "postback", "data": "{'action': 'search', 'skip': 0}"} 
+            "action": {"type": "postback", "data": "{\"action\": \"search\", \"skip\": 0}"} 
         }
     ]
 }
